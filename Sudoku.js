@@ -12,19 +12,26 @@ TD_arr[i].innerText = i
 
 function Level(){
 
-if (event.target.value == "Лёгкий") Easy()
-if (event.target.value == "Средний") Medium()
-if (event.target.value == "Сложный") Hard()
+if (event.target.value != "Выбрать Режим") {
+
+document.querySelector('#Start').hidden = false
+
+}
+
+// if (event.target.value == "Лёгкий") Easy()
+// if (event.target.value == "Средний") Medium()
+// if (event.target.value == "Сложный") Hard()
 
 }
 
 function Easy() {
 
-if (document.querySelector('#Start').hidden == true) {
+if (document.querySelector('#Start').hidden == false) {
 
-  document.querySelector('#Start').hidden = false
+  document.querySelector('#Start').hidden = true
 
   return Easy_bool = true
+
 
   }
 
@@ -32,9 +39,9 @@ if (document.querySelector('#Start').hidden == true) {
 
 function Medium(){
 
-if (document.querySelector('#Start').hidden == true) {
+if (document.querySelector('#Start').hidden == false) {
 
-  document.querySelector('#Start').hidden = false 
+  document.querySelector('#Start').hidden = true
 
   return Medium_bool =  true
 
@@ -44,9 +51,9 @@ if (document.querySelector('#Start').hidden == true) {
 
 function Hard() {
 
-if (document.querySelector('#Start').hidden == true) {
+if (document.querySelector('#Start').hidden == false) {
 
-  document.querySelector('#Start').hidden = false
+  document.querySelector('#Start').hidden = true
 
   return Hard_bool =  true
 
@@ -56,10 +63,15 @@ if (document.querySelector('#Start').hidden == true) {
 
 function Show_Square() {
 
+if (document.querySelector('.LevelSet').value == 'Лёгкий') Easy()
+if (document.querySelector('.LevelSet').value == 'Средний') Medium()
+if (document.querySelector('.LevelSet').value == 'Сложный') Hard()
+
 document.querySelector('.Tabl').style.visibility = 'visible'
 
-
 fillSudoku()
+
+Timer()
 
 document.querySelector('#Start').hidden = true
 
@@ -214,6 +226,7 @@ i++
 }
 
 document.querySelector('.SetNumber').style.visibility = 'visible'
+document.getElementById('ClearButton').style.visibility = 'hidden'
 
 }
 
@@ -425,14 +438,19 @@ m++
 
 
 This_Col.textContent = document.querySelector('.SetNumber').value
-
 document.querySelector('.SayOk').style.visibility = 'hidden'
-
 document.querySelector('.SetNumber').value = "Выбрать цифру"
-
 document.querySelector('.SetNumber').style.visibility = 'hidden'
 
+if (HandlerSayOk.caller.caller != fillSudoku) {
 
+if (This_Col.style.color == 'red') {
+
+document.getElementById('ClearButton').style.visibility = 'visible'
+
+}
+
+}
 
 }
 
@@ -521,13 +539,49 @@ function fillSudoku(){
 
 function Timer() {
 
+GiveTime = new Date();
+GiveTime.setSeconds(0);
+GiveTime.setMinutes(0);
+GiveTime.setHours(0);
 
+function Start_Timer() {
+
+GiveTime.setSeconds(GiveTime.getSeconds() + 1);
+GiveTimeString = GiveTime.toTimeString() + "";
+GiveTimeString = GiveTimeString.substr(0, 8);
+
+
+document.querySelector('.Timer_Start').innerText = `Время: ${GiveTimeString}`;
+/* document.querySelector('.Timer_Start').style.position = 'relative';
+document.querySelector('.Timer_Start').style.bottom = '-70px';
+document.querySelector('.Timer_Start').style.left = '1000px' */
 
 }
 
-Timer()
+setInterval(Start_Timer, 1000)
+
+}
+
+function HandlerClearNumber () {
+
+if (This_Col.style.color == 'red') {
+
+This_Col.innerText = ""
+document.getElementById('ClearButton').style.visibility = 'hidden'
+This_Col.addEventListener('click', ShowColButton)
+
+}
+
+}
+
+function Clear () {
+
+document.getElementById('ClearButton').addEventListener('click', HandlerClearNumber)
+
+}
+
+Clear()
 Start_Game()
 ClickOnSetNumber()
 ClickOnSayOk()
 GetAllCol()
-

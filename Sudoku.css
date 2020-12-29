@@ -23,6 +23,27 @@ background-color: grey;
 
 }
 
+.Timer_Start {
+
+position: relative;
+color: lime;
+background-color: darkblue;
+border-radius: 10px;
+text-align: center;
+width: 12%;
+bottom: -60px;
+margin-left: 1000px;
+
+}
+
+#ClearButton {
+
+position: relative;
+left: 1000px;
+visibility: hidden;
+
+}
+
 .easy {
 
 color: green;
